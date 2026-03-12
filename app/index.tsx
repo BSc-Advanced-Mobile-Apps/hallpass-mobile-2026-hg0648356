@@ -1,38 +1,23 @@
-import * as React from 'react';
 import { View } from 'react-native';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function HomeScreen() {
   return (
-    <View className="bg-background flex-1 items-center justify-center gap-5 p-6">
-      <Card className="w-full max-w-sm rounded-2xl p-6">
-        <CardHeader className="items-center">
-          <CardTitle variant="h1" className="text-brand-primary pb-2 text-center">
-            Hall Pass
-          </CardTitle>
-          <Text variant="muted" className="text-muted-foreground">
-            {new Date().toLocaleTimeString()}
-          </Text>
-        </CardHeader>
-
-        <CardContent>
-          <View className="flex-row justify-center gap-3">
-            <View className="items-center">
-              <Text className="text-muted-foreground text-sm">An app for</Text>
-              <CardTitle variant="h3" className="text-foreground font-semibold">
-                Students
-              </CardTitle>
-            </View>
-          </View>
-        </CardContent>
-
-        <CardFooter className="flex-col gap-3">
-          <View className="flex-row items-center overflow-hidden">
-            <Text variant="code">Update me with your own code</Text>
-          </View>
-        </CardFooter>
-      </Card>
+    <View className="bg-background flex flex-1 py-32">
+      <Text className="text-center text-white">Hello, world!</Text>
+      <View className="flex flex-row">
+        <View className="flex items-center justify-center p-4">
+          <Checkbox
+            checked={false}
+            className="border-foreground-transparent h-4 w-4 rounded-xs border-2"
+          />
+        </View>
+        <View className="border-b-foreground-transparent w-100 border py-2">
+          <Text className="text-foreground">Subject Assignment</Text>
+          <Text className="text-foreground-transparent">Due: Oct 20</Text>
+        </View>
+      </View>
     </View>
   );
 }
