@@ -1,28 +1,51 @@
+import React from 'react';
 import { ITask } from '@/app/index';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { TaskDialogue } from '@/components/ui/TaskDialogue';
 import { useState } from 'react';
 
 interface TaskProps {
   task: ITask;
+  onUpdate?: (task: ITask) => void;
 }
 
-export default function Task({ task }: TaskProps) {
-  const [check, setCheck] = useState(false);
+export default function Task({ task: initialTask, onUpdate }: TaskProps) {
+  const [task, setTask] = React.useState(initialTask);
+  const [showDialog, setShowDialog] = React.useState(false);
+  const handleSetChecked = () => {
+    const updatedTask = { ...task, isChecked: !task.isChecked };
+    setTask(updatedTask);
+    if (onUpdate) {
+      onUpdate(updatedTask);
+    }
+  };
   return (
-    <View className="flex flex-row">
-      <View className="flex items-center justify-center p-4">
-        <Checkbox
-          checked={check}
-          onCheckedChange={setCheck}
-          className="border-foreground-transparent h-4 w-4 rounded-xs border-2"
-        />
-      </View>
-      <View className="border-b-foreground-transparent w-100 flex-1 border py-2">
-        <Text className="text-foreground">{task.title}</Text>
-        <Text className="text-foreground-transparent">{task.category}</Text>
-      </View>
-    </View>
+    <Dialog open={showDialog} onOpenChange={setShowDialog}>
+      <DialogTrigger asChild>
+        <TouchableOpacity className="flex w-full flex-row">
+          <View className="flex h-full w-24 px-8 py-5">
+            <Checkbox
+              className="border-foreground checked:bg-foreground"
+              checked={task.isChecked}
+              onCheckedChange={handleSetChecked}
+            />
+          </View>
+          <View className="border-foreground-transparent flex h-full flex-1 gap-1 border-b py-4">
+            <Text className="text-foreground text-xl">{task.title}</Text>
+            <Text className="text-foreground-transparent text-xl">{task.category}</Text>
+          </View>
+        </TouchableOpacity>
+      </DialogTrigger>
+
+      <TaskDialogue
+        task={task}
+        setTask={setTask}
+        setShowDialog={setShowDialog}
+        showDialog={showDialog}
+      />
+    </Dialog>
   );
 }
